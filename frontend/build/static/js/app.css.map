@@ -1,0 +1,1 @@
+{"version":3,"file":"app.css","mappings":";;;AAAA;IACI,gBAAgB;AACpB,C","sources":["webpack://gerador_de_imagem_django/./frontend/src/css/styles.css"],"sourcesContent":[".teste{\n    font-size: 35rem;\n}"],"names":[],"sourceRoot":""}
