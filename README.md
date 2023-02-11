@@ -26,3 +26,16 @@ Dependencies:
 API KEY:
 
 Crie sua API KEY no site da OpenAPI.
+
+
+Front-end:
+
+    npm install
+
+dev:
+
+    npm run dev
+
+build:
+
+    npm run build
