@@ -36,7 +36,7 @@ class ImageGeneratorAPI(APIView):
         except:
             response = {
                 'status_code' : 406,
-                'detail' : "Request denied by OpenAi API. Some expressions are not allowed. Verify if your text have political content, drugs, violence or sexual content"
+                'detail' : "Request denied by OpenAi API. Some expressions are not allowed. Verify if your text have political/sexual content, drugs or violence"
             }
             serializer = serializers.ErroSerializer(response)
         finally:

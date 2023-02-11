@@ -14,28 +14,45 @@ async function getCookie(name) {
     return cookieValue;
 }
 
-async function handleData(data){
-    const image = document.getElementById('imagem')
-    image.src = data.url
+async function handleData(data, placeholder){
+    const image = document.getElementById('imagem');
+    if(data.status_code === 406){
+        const message = document.getElementById('message');
+        message.style.display = 'block';
+        image.classList.remove('loader');
+        image.src = placeholder
+        message.innerHTML = data.detail;
+    }
+    else{
+        image.classList.remove('loader');
+        image.src = data.url;
+    }
+    
 }
 
 async function submit(){
+    const message = document.getElementById('message');
+    message.style.display = 'none';
+    const image = document.getElementById('imagem');
+    const placeholder = image.src
+    image.src = "";
+    image.classList.add('loader');
     const content = document.getElementById('textarea')
     const csrftoken = await getCookie('csrftoken');
     const respose = await fetch('api/submit', {
-        method: 'POST',
-        mode: "same-origin",
-        headers: {
-            "X-CSRFToken": csrftoken,
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            content: content.value
-        })
-    })
+                                    method: 'POST',
+                                    mode: "same-origin",
+                                    headers: {
+                                        "X-CSRFToken": csrftoken,
+                                        "Accept": "application/json",
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        content: content.value
+                                    })
+                                })
     const data = await respose.json();
-    handleData(data)
+    await handleData(data, placeholder);
 }
 
 async function addListener(){
@@ -45,4 +62,4 @@ async function addListener(){
     })
 }
 
-addListener()
+addListener();
