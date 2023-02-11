@@ -19,10 +19,15 @@ async function getCookie(name) {
     return cookieValue;
 }
 
+async function handleData(data){
+    const image = document.getElementById('imagem')
+    image.src = data.url
+}
+
 async function submit(){
     const content = document.getElementById('textarea')
     const csrftoken = await getCookie('csrftoken');
-    const respose = await fetch('api/teste', {
+    const respose = await fetch('api/submit', {
         method: 'POST',
         mode: "same-origin",
         headers: {
@@ -35,14 +40,8 @@ async function submit(){
         })
     })
     const data = await respose.json();
-    console.log(data)
-    // return data
+    handleData(data)
 }
-
-async function handleData(){
-
-}
-
 
 async function addListener(){
     const botao = document.getElementById('botao')

@@ -1,13 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet"> 
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
     <title>Document</title>
 </head>
+
 <body>
     <div class="main-content">
         <div class="navbar">
@@ -26,10 +28,11 @@
                 <textarea type="text" name="texto" class="textarea" id="textarea"></textarea>
                 <div class="botao" id="botao">Submit</div>
             </form>
+            <img id="imagem" src="{% static 'img/placeholder.jpg' %}">
         </div>
-        <img src="{{ url }}">
     </div>
 
-<script src="{% static 'js/bundle.js' %}"></script>
+    <script src="{% static 'js/bundle.js' %}" class="imagem"></script>
 </body>
+
 </html>
