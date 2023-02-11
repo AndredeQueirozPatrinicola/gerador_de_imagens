@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from home import serializers
+
 import json
 import openai
 from decouple import config
@@ -11,34 +16,28 @@ from decouple import config
 def index(request):
     return render(request, 'index.html')
 
-def submit(request):
 
-    if request.method == 'POST': 
-        body = json.loads(request.body.decode('utf-8'))
-        content = body.get('content')
+class ImageGeneratorAPI(APIView):
 
+    def post(self, request, *args, **kwargs):
         openai.api_key = config('API_KEY')
-        request = openai.Image.create(
-            prompt=content,
-            n=1,
-            size="512x512"
-        )
-        response = request['data'][0]['url']
-
-        return JsonResponse({'url': response})
-
-
-    
-    else:
-        print(request.GET)
-        # openai.api_key = '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'
-        # texto = request.POST.get('texto')
-        # response = openai.Image.create(
-        #                 prompt=texto,
-        #                 n=1,
-        #                 size="512x512"
-        #                 )
-        # image_url = response['data'][0]['url']
-        image_url = 'oi'
-
-        return JsonResponse({'url': image_url})
+        try:
+            body = json.loads(request.body.decode('utf-8'))
+            content = body.get('content')
+            request = openai.Image.create(
+                                            prompt=content,
+                                            n=1,
+                                            size="512x512"
+                                        )
+            response = {
+                'url' : request['data'][0]['url']
+            }
+            serializer = serializers.ImageSerializer(response)
+        except:
+            response = {
+                'status_code' : 406,
+                'detail' : "Request denied by OpenAi API. Some expressions are not allowed. Verify if your text have political content, drugs, violence or sexual content"
+            }
+            serializer = serializers.ErroSerializer(response)
+        finally:
+            return Response(serializer.data)

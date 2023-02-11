@@ -4,5 +4,5 @@ from home import views
 
 urlpatterns = [
     path('', views.index),
-    path('api/teste', views.submit)
+    path('api/submit', views.ImageGeneratorAPI.as_view())
 ]
